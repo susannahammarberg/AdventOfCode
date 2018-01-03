@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 """
 Created on Tue Dec 12 15:00:26 2017
@@ -5,44 +6,65 @@ Created on Tue Dec 12 15:00:26 2017
 @author: Sanna
 """
 import numpy as np
-bank = np.loadtxt('C:/Users/Sanna/Documents/adventofcode2017/input6.txt',dtype='int') 
-print(bank[0:6])
-#bank = [0, 2, 7, 0]
-history = []
-#index for 
-test_equal=0
-#history=np.matrix((4,100))
-index=0
-while test_equal==0:
-    print('Newmaxima')
-    print(max(bank))
-    print(bank[0:6])
-    j=np.argmax(bank)
-    steps=max(bank)
-    bank[j]=0
-    for i in range(steps):
-        j+=1
-        
-        # if you reach the last bank, start om from the beginning
-        if j > len(bank)-1:
-            j-=len(bank)
-        
-        bank[j]+=1
-        print(bank[0:6])
-    print('this is what a append:')
-    print(bank[0:6])
-    history.append(bank[1:16])
-    #history[:,index]=bank
-    
-    # compare the vectors in the list history
-        #compare the alfabet vectors in one row
-    
-    for ii in range(len(history)):
-        for jj in range(len(history)):
-            if np.array_equal(history[ii],history[jj]) and ii!=jj:
-                test_equal = 1
-                print('Equal!')
-                print(ii)
-                print(jj)
-        
+import matplotlib  as plt
+bank = np.loadtxt('C:/Users/Sanna/Documents/Github/adventofcode/2017/input6.txt',dtype='int') 
+#bank = np.loadtxt('C:/Users/Sanna/Documents/adventofcode2017/input6.txt',dtype='int') 
 
+def solve(permutation_set,permutation,bank):
+
+    while permutation not in permutation_set:
+        #print('Newmaxima')
+        #print(max(bank))
+        j=np.argmax(bank)
+        steps=max(bank)
+        bank[j]=0
+        for i in range(steps):        
+            j+=1        
+            # if you reach the last bank, start om from the beginning
+            if j > len(bank)-1:
+                j-=len(bank)
+                #print('j')
+            bank[j]+=1
+    
+        #print('this is what a append:')
+        #print((bank))
+        permutation_set.add(permutation)
+        permutation = tuple(bank)
+
+    print(len(permutation_set))
+    return permutation,permutation_set
+
+permutation_set = set()
+permutation = tuple(bank)
+xx, xxset= solve(permutation_set,permutation,bank)
+#part2 : 
+permutation_set = set()
+bank2= np.array((0, 14, 13, 12, 11, 10, 8, 8, 6, 6, 5, 3, 3, 2, 1, 10))
+permutation2 = tuple(bank2)
+x2, x2set = solve( permutation_set,permutation2,bank2)
+answer=len(x2set)  #right answer
+
+
+# This gives the wrong answer, why?!
+#1360
+#1359
+#1358
+
+
+#1371
+#1370
+#1372
+index=0
+print('xx is')
+print(xx)
+for perm in xxset:
+    #print(perm)
+    if perm==xx:
+        print('index:')
+        print(index)
+        print(len(xxset)-index)
+        print(perm)
+
+    index+=1
+
+#print(xx)len()
