@@ -3,7 +3,7 @@
 
 
 
-def star1(start=136818,end=685979):
+def star1(start=136818,end=685979+1):
     
 
     #my_input = 136818-685979
@@ -35,15 +35,26 @@ def check_rule1(number):
 
 def check_rule2_extended(number):
     rule2 = 0
-    #for ii in range(0,5):
-    # OBS pseudokod
-    for ii = 1
-        if number[ii] == number[ii+1] and number[ii] != number[ii+2]:
-            rule2 = 1
-    for ii =2
-        if number[ii] == number[ii+1] and number[ii] != number[ii+2]:
-    
-            break;
+    ii = 0
+    if number[ii] == number[ii+1] and number[ii] != number[ii+2]:
+        rule2 = 1
+
+    ii = 1
+    if number[ii] == number[ii+1] and number[ii] != number[ii+2] and number[ii] != number[ii-1]:
+        rule2 = 1
+
+    ii = 2
+    if number[ii] == number[ii+1] and number[ii] != number[ii+2] and number[ii] != number[ii-1]:
+        rule2 = 1
+
+    ii = 3
+    if number[ii] == number[ii+1] and number[ii] != number[ii+2] and number[ii] != number[ii-1]:
+        rule2 = 1
+    ii = 4
+    if number[ii] == number[ii+1] and number[ii] != number[ii-1]:
+        rule2 = 1    
+      
+#0 1 2 3 4 5 
     return rule2
    
 
@@ -63,12 +74,16 @@ def test1():
 ##            print digit
 
     
-
 if __name__ == '__main__':
    
-    star1(111129,111137)
+    #star1(111129,111137)
     star1()
-    # provade 1953
+    star1(112233,112233+1)
+    star1(123444,123444+1)
+    star1(111122,111122+1)
+    #1501 too  high
+    #1411 too high
+   
 
 
     
