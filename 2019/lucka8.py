@@ -1,5 +1,5 @@
 import numpy as np
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
     
 def star2():
@@ -33,9 +33,9 @@ def star2():
            
                     
     print image[0]  
-    #plt.figure()
-    #plt.imshow(image[0])
-    #plt.show()
+    plt.figure()
+    plt.imshow(image[0])
+    plt.show()
     
 
 

@@ -2,7 +2,7 @@
 def star1(noun=12,verb=2):
     
 
-    with open('input2.txt','r') as f:
+    with open('input5.txt','r') as f:
         # split up in parts the onvert every straing to int using map
         code = map(int, f.read().split(','))
 
@@ -22,12 +22,11 @@ def star1(noun=12,verb=2):
             code[code[ii+3]] = code[code[ii+1]] + code[code[ii+2]]
         elif code[ii] == 2:
             code[code[ii+3]] = code[code[ii+1]] * code[code[ii+2]]
-        elif code[ii] ==3:
-            3 and 4 they come in pars?
-            take integer as input and save to ??
-            cheange stepsize
+        elif code[ii] == 3:
+            code[ code[ii+1]] = input_val
+
         elif code[ii] ==4:
-            take parameter and save as output
+            output_val = code[code[ii+1]]
         elif code[ii] == 99:
             #print 99
             break;
@@ -52,8 +51,8 @@ def star2():
                 break;
         
     
-def test1(code = [1,1,1,4,99,5,6,0,99]):
-     #[1,9,10,3,2,3,11,0,99,30,40,50]
+def test1(code = [1002,4,3,4,33]):
+    
     print code
     for ii in range(0,len(code),4):
         if code[ii] == 1:
@@ -78,6 +77,6 @@ def test1(code = [1,1,1,4,99,5,6,0,99]):
 if __name__=='__main__':
 
     star1() # not 1
-    test1([1,0,0,0,99])
+    test1()
     test1(code=[2,4,4,5,99,0])
     star2()
