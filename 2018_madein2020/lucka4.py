@@ -13,30 +13,45 @@ def main():
         records = fd.read().splitlines() #for lines without the \n after each line
 
     records.sort()
-    
+
     times = {}
+    
+    #midnight hour
+    #2D list
+    #n = 1000
+    n = 60
+    hour = [''] * n 
+    
     
     for line in records:
         if '#' in line:   #(try)
-            guard_nbr = line.split('#')[1].split(' ')[0]
-            times[guard_nbr] = 0
-            print(guard_nbr)
-        #add the times
+            guard_nbr = line.split('#')[1].split(' ')[0]    
+            if guard_nbr not in times:
+                print('not there')
+                times[guard_nbr] = 0
+
+
+        if 'falls asleep' in line:
+            sleep_time = line.split(' ')[1].split(':')[1].split(']')[0]
+        elif 'wakes up' in line:
+            wake_time = line.split(' ')[1].split(':')[1].split(']')[0]
+            sleep_time = int(wake_time)-int(sleep_time)
+            times[guard_nbr] += sleep_time
+            
+            if guard_nbr == '983':
+                for i in range(sleep_time,wake_time):
+                    hour[i] += 1
+                
+        #Strategy 1: Find the guard that has the most minutes asleep.
+        #What minute does that guard spend asleep the most?
+        max_time_guard =  max(times.items())[0]
+        
+        times
+        
             
         
     
-    for claim in claims:
-        a = claim.split('@')
-        b = a[1].split(':')
-        place = b[0].split(',')
-        col_pos = int(place[0])
-        row_pos = int(place[1])
-        size = b[1].split('x')
-        width = int(size[0])
-        height = int(size[1])
-        fabric[row_pos:row_pos + height, col_pos:col_pos+width ] += 1
 
-    print(fabric)
     
     #occurrences of overlapping squares
     overlap = np.count_nonzero(fabric > 1)
