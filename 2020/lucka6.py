@@ -20,8 +20,7 @@ def main():
     for group in records:
         group_counter = [0]*len(alphabet)
         print(group)
-        print(len(group.split('\n')))
-        #todo this is toooooo low soooometimeeeeees
+
         for row in group:
             for letter in row:
                 if letter != '\n':
@@ -33,15 +32,25 @@ def main():
         print(group_counter)
         #print('rader i gruppen: ', len(group.split('\n')))
         
+        #hur många rader i gruppen:
+        
+        if group[-1] == '\n':
+           # print('ends with n', group)
+            #remove it
+            group = group[:-1]
+
+        group_rows = len(group.split('\n'))
+        
         yes_questions = 0
-        for ii in range(0,len(group_counter)):
-            
-            if group_counter[ii] == len(group.split('\n')): #hur många rader i gruppen:                
+        for ii in range(0,len(group_counter)):            
+            if group_counter[ii] == group_rows:                 
                 yes_questions += 1
         nbr_per_group.append(yes_questions)
-        print(yes_questions)
-    print(nbr_per_group)                
+               
                 
     print(sum(nbr_per_group))
+    
+if __name__ == '__main__':
+    
+    main()
                 
-#3264 too low #2
