@@ -55,32 +55,90 @@ def main():
         record = fd.read().splitlines() #for lines without the \n after each line
 
 
+    bags = []
     
+    
+    #define all bags in a list before defining what bags goes in the bags
     for line in record:
         
         parent_color = line.split(' ')[1]
+        print('\n')
         print('new color')
         print(parent_color)
+        b1 = Bag(parent_color)
+        
+        
         if not 'no other' in line:
             daughter_colors = []
             
-            #TOdo fix this!!!!!rfcghn b
+            if ',' in line: 
+                line = line.strip('s.')
+                print('daughters')
+                for item in line.split('bag')[1:-1]:
+                    
+                    print(item.split(' ')[-2])
+                    #daughter_colors.append(item.split(' ')[-2])
+                    
+                    #TODO lägg till bags, inte färger
+                    check = 0
+                    for bag in bags:
+                        if bag.color == item:
+                            check = 1
+                            
+                    if check = 0:
+                        b2 = 
+                    
+                    b1.children.append(item.split(' ')[-2])
+                    
+            else:
+                print('daughter')
+                print(record[2].split(' ')[-2])
+                b1.children.append((record[2].split(' ')[-2]))
+                
+        bags.append(b1)
+
+
+    for line in record:
+        
+        parent_color = line.split(' ')[1]
+        print('\n')
+        print('new color')
+        print(parent_color)
+        b1 = Bag(parent_color)
+        
+        
+        if not 'no other' in line:
+            daughter_colors = []
             
             if ',' in line: 
                 line = line.strip('s.')
+                print('daughters')
                 for item in line.split('bag')[1:-1]:
-                    print('daughters')
+                    
                     print(item.split(' ')[-2])
                     #daughter_colors.append(item.split(' ')[-2])
-
+                    
+                    #TODO lägg till bags, inte färger
+                    check = 0
+                    for bag in bags:
+                        if bag.color == item:
+                            check = 1
+                            
+                    if check = 0:
+                        b2 = 
+                    
+                    b1.children.append(item.split(' ')[-2])
                     
             else:
+                print('daughter')
                 print(record[2].split(' ')[-2])
-                print(' huhuhu')
-                    
-                #daughter_colors.append()
-                #print(item)
-            
+                b1.children.append((record[2].split(' ')[-2]))
+                
+        bags.append(b1)
+        
+
+
+                
 
 
     bags = []
@@ -102,10 +160,12 @@ def main():
     bags.append(b2)
     bags.append(b3)
     bags.append(b4)
+
     nbr = 0
     for bag in bags:
-        print(bag.has_color('gold'))
-        nbr += 1
+        print(bag.color)        
+        if bag.has_color('gold') == True:
+            nbr += 1
         
     print('Answer: ')
     print(nbr-1)
