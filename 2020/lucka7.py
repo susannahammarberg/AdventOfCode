@@ -16,159 +16,112 @@ class Bag:
         self.children = []
         
     def has_color(self,color):
-        print(self.color)
+        #print(self.color)
 
         if color == self.color:
             return True
         elif len(self.children) == 0:
-            print('does this happen???????????????????????????????')
+           # print('does this happen???????????????????????????????')
             return False
         else:
             for child in self.children:
-                print('but this works?')
+                #print('but this works?')
                 return child.has_color(color)
 
 
-bg = Bag('gold')
-print(bg.children)
-b1 = Bag('white')
-print(bg.children)
-b1.children.append(bg)
-print(bg.children)
-
-b2 = Bag('yellow')
-b2.children.append(bg)    
-b3 = Bag('orange')
-b3.children.append(b1)
-b3.children.append(b2)
-b4 = Bag('red')
-b4.children.append(b1)
-b4.children.append(b2)
-
-b1.has_color('white')
-b1.has_color('gold')
-b1.has_color('green')
+#bg = Bag('gold')
+#print(bg.children)
+#b1 = Bag('white')
+#print(bg.children)
+#b1.children.append(bg)
+#print(bg.children)
+#
+#b2 = Bag('yellow')
+#b2.children.append(bg)    
+#b3 = Bag('orange')
+#b3.children.append(b1)
+#b3.children.append(b2)
+#b4 = Bag('red')
+#b4.children.append(b1)
+#b4.children.append(b2)
+#
+#b1.has_color('white')
+#b1.has_color('gold')
+#b1.has_color('green')
 
 def main():
        
-    with open("ex7.txt", "r") as fd:
+    with open("input7.txt", "r") as fd:
         record = fd.read().splitlines() #for lines without the \n after each line
 
 
     bags = []
     
-    
     #define all bags in a list before defining what bags goes in the bags
     for line in record:
         
-        parent_color = line.split(' ')[1]
-        print('\n')
+        parent_color = line.split(' ')[0:2]
+        parent_color = ' '.join(parent_color)
+ 
         print('new color')
         print(parent_color)
         b1 = Bag(parent_color)
-        
-        
-        if not 'no other' in line:
-            daughter_colors = []
-            
-            if ',' in line: 
-                line = line.strip('s.')
-                print('daughters')
-                for item in line.split('bag')[1:-1]:
-                    
-                    print(item.split(' ')[-2])
-                    #daughter_colors.append(item.split(' ')[-2])
-                    
-                    #TODO lägg till bags, inte färger
-                    check = 0
-                    for bag in bags:
-                        if bag.color == item:
-                            check = 1
-                            
-                    if check = 0:
-                        b2 = 
-                    
-                    b1.children.append(item.split(' ')[-2])
-                    
-            else:
-                print('daughter')
-                print(record[2].split(' ')[-2])
-                b1.children.append((record[2].split(' ')[-2]))
-                
         bags.append(b1)
 
 
+
+    idx = 0
     for line in record:
-        
-        parent_color = line.split(' ')[1]
-        print('\n')
-        print('new color')
-        print(parent_color)
-        b1 = Bag(parent_color)
-        
-        
+        b3 = bags[idx]
+
         if not 'no other' in line:
-            daughter_colors = []
             
             if ',' in line: 
                 line = line.strip('s.')
-                print('daughters')
+                
+                
+                
                 for item in line.split('bag')[1:-1]:
+                 #    daughter_color = ' '.join(parent_color)   
+                 #   print(item.split(' ')[-2])
+                    #daughter_colors.append(item.split(' ')[-2])                    
+                    #b1.children.append(item.split(' ')[-2])
+                    daughter_color = ' '.join(item.split(' ')[-3:-1])
                     
-                    print(item.split(' ')[-2])
-                    #daughter_colors.append(item.split(' ')[-2])
-                    
-                    #TODO lägg till bags, inte färger
-                    check = 0
+                    #print(daughter_color)
                     for bag in bags:
-                        if bag.color == item:
-                            check = 1
-                            
-                    if check = 0:
-                        b2 = 
-                    
-                    b1.children.append(item.split(' ')[-2])
+                        if bag.color == daughter_color:
+                            b3.children.append(bag)
                     
             else:
-                print('daughter')
-                print(record[2].split(' ')[-2])
-                b1.children.append((record[2].split(' ')[-2]))
+                #print('daughter')
+                #print(record[2].split(' ')[-2])
+                #b1.children.append((record[2].split(' ')[-2]))
                 
-        bags.append(b1)
-        
+                for bag in bags:
+                    
 
-
-                
-
-
-    bags = []
-    
-    bg = Bag('gold')
-    b1 = Bag('white')
-    b1.children.append(bg)
-    
-    b2 = Bag('yellow')
-    b2.children.append(bg)    
-    b3 = Bag('orange')
-    b3.children.append(b1)
-    b3.children.append(b2)
-    b4 = Bag('red')
-    b4.children.append(b1)
-    b4.children.append(b2)
-    bags.append(bg)
-    bags.append(b1)
-    bags.append(b2)
-    bags.append(b3)
-    bags.append(b4)
-
+                    daughter_color = ' '.join(line.split(' ')[-3:-1])
+                    
+                    if bag.color == daughter_color:
+                        b3.children.append(bag)
+                        print('this is one')
+                                
+        idx += 1
+                        
     nbr = 0
+    idx = 0
     for bag in bags:
-        print(bag.color)        
-        if bag.has_color('gold') == True:
+        #print(idx)
+        idx+=1        
+        if bag.has_color('shiny gold') == True:
+            print(bag.color)
             nbr += 1
         
     print('Answer: ')
-    print(nbr-1)
+    print(nbr-1) 
+    
+    # not 10
         
 #def part1():
 ##        with open("ex7.txt", "r") as fd:
@@ -199,8 +152,8 @@ def fakultet(number):
     return  number + fakultet(number-1)
     
     
-fac = fakultet(4)
-print(fac)
+#fac = fakultet(4)
+#print(fac)
 
 if __name__ == '__main__':
     
