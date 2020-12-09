@@ -20,13 +20,21 @@ class Bag:
 
         if color == self.color:
             return True
-        elif len(self.children) == 0:
-           # print('does this happen???????????????????????????????')
+        
+        if len(self.children) == 0:
             return False
+
         else:
             for child in self.children:
-                #print('but this works?')
-                return child.has_color(color)
+                #if flagga !=0:
+                if child.has_color(color):
+                    return True
+                
+        return False
+            
+            
+            # den kollar ju inte alla barn!
+            
 
 
 #bg = Bag('gold')
@@ -113,13 +121,16 @@ def main():
     idx = 0
     for bag in bags:
         #print(idx)
-        idx+=1        
+        idx+=1    
+        #for items in
         if bag.has_color('shiny gold') == True:
             print(bag.color)
             nbr += 1
         
     print('Answer: ')
     print(nbr-1) 
+    
+    #plaid blue
     
     # not 10
         
