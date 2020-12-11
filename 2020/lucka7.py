@@ -7,16 +7,41 @@ Created on Mon Dec  7 13:13:17 2020
 
 import numpy as np
 
+#
+#class Bag:  
+#    
+#    def __init__(self,color):
+#        self.color = color
+#        self.children = []
+#        
+#    def has_color(self,color):
+#        #print(self.color)
+#
+#        if color == self.color:
+#            return True
+#        
+#        if len(self.children) == 0:
+#            return False
+#
+#        else:
+#            for child in self.children:
+#                #if flagga !=0:
+#                if child.has_color(color):
+#                    return True
+#                
+#        return False
 
-class Bag:
+
+
+
+class Bag:  
     
-    
-    def __init__(self,color):
+    def __init__(self, color):
         self.color = color
         self.children = []
+        self.nbr_children = [] 
         
     def has_color(self,color):
-        #print(self.color)
 
         if color == self.color:
             return True
@@ -26,39 +51,44 @@ class Bag:
 
         else:
             for child in self.children:
-                #if flagga !=0:
                 if child.has_color(color):
                     return True
                 
         return False
-            
-            
-            # den kollar ju inte alla barn!
-            
+    
+    def all_colors(self):
+        
+        if len(self.children) == 0:
+            return self.color
 
+        l = ' '
+        for child in self.children:
+            l += ' ' + child.all_colors()
+        
+        return self.color + ' ' + l 
 
-#bg = Bag('gold')
-#print(bg.children)
-#b1 = Bag('white')
-#print(bg.children)
-#b1.children.append(bg)
-#print(bg.children)
-#
-#b2 = Bag('yellow')
-#b2.children.append(bg)    
-#b3 = Bag('orange')
-#b3.children.append(b1)
-#b3.children.append(b2)
-#b4 = Bag('red')
-#b4.children.append(b1)
-#b4.children.append(b2)
-#
-#b1.has_color('white')
-#b1.has_color('gold')
-#b1.has_color('green')
-
-def main():
+   
+    def nbr_bags(self):
+             
+        if len(self.children) == 0:
+            return 1
        
+        idx = 0 
+        ll = 1 #current bag
+        for child in self.children:
+          
+            ll +=   child.nbr_bags() *self.nbr_children[idx]
+            idx += 1
+
+        return   ll
+        
+
+    
+    
+def main():
+
+
+    #ex2_day       
     with open("input7.txt", "r") as fd:
         record = fd.read().splitlines() #for lines without the \n after each line
 
@@ -77,7 +107,6 @@ def main():
         bags.append(b1)
 
 
-
     idx = 0
     for line in record:
         b3 = bags[idx]
@@ -87,36 +116,29 @@ def main():
             if ',' in line: 
                 line = line.strip('s.')
                 
-                
-                
                 for item in line.split('bag')[1:-1]:
-                 #    daughter_color = ' '.join(parent_color)   
-                 #   print(item.split(' ')[-2])
-                    #daughter_colors.append(item.split(' ')[-2])                    
-                    #b1.children.append(item.split(' ')[-2])
                     daughter_color = ' '.join(item.split(' ')[-3:-1])
-                    
-                    #print(daughter_color)
+                    daughter_number = int(item.split(' ')[-4])
+
                     for bag in bags:
                         if bag.color == daughter_color:
                             b3.children.append(bag)
+                            b3.nbr_children.append(daughter_number)
                     
             else:
-                #print('daughter')
-                #print(record[2].split(' ')[-2])
-                #b1.children.append((record[2].split(' ')[-2]))
                 
                 for bag in bags:
-                    
-
                     daughter_color = ' '.join(line.split(' ')[-3:-1])
-                    
+                    daughter_number = int(line.split(' ')[-4])
                     if bag.color == daughter_color:
                         b3.children.append(bag)
-                        print('this is one')
+                        b3.nbr_children.append(daughter_number)
                                 
         idx += 1
                         
+
+
+
     nbr = 0
     idx = 0
     for bag in bags:
@@ -127,12 +149,24 @@ def main():
             print(bag.color)
             nbr += 1
         
-    print('Answer: ')
+    print('Answer del I: ')
     print(nbr-1) 
     
-    #plaid blue
+    # part 2
     
-    # not 10
+    
+    for bag in bags:
+   
+        if bag.color == 'shiny gold':
+            nbr_bags  = bag.nbr_bags()      
+            
+            print(nbr_bags-1)
+            
+            #5883833 too high
+            
+    
+    
+    
         
 #def part1():
 ##        with open("ex7.txt", "r") as fd:
