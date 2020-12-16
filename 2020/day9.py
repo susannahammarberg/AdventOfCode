@@ -60,5 +60,6 @@ for ii in range(0,len(record)):
 #kan vara ett index fel nu..
 print('min value',min(find_range))
 print('max value',max(find_range))
+print('answer: ', min(find_range) + max(find_range) )
     
     
