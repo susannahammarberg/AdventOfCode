@@ -182,6 +182,7 @@ arr(3)
 arr(31) #yey this works with the example but not the real input cos its too big
 
 # need to go for dynamic programming
+# save values instead of  recalculating multiple times
 def arr_dyn_mem(n,memory):
     if memory[n] is not None:
         return memory[n]
