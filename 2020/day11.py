@@ -8,7 +8,7 @@ Created on Sat Dec 19 14:35:55 2020
 Occupying seats
 """
 import copy
-
+import numpy as np
 with open('input11.txt','r') as fp:
     seats = fp.readlines()
     
@@ -73,92 +73,90 @@ print('answer ' , sum_)
 
 
 #part2
+import copy
+import numpy as np
 
-with open('ex11.txt','r') as fp:
+with open('input11.txt','r') as fp:
     seats = fp.readlines()
     
     
 #make grid 2 pixels wider and higher
-# all 'L' or '.' will be 0
-occupancy = []
-for ii in range(0,len(seats)+2):
-     occupancy.append([0]*(len(seats[0])+2))
-     
-for yy in range(0,len(seats)):
-    for xx in range(0,len(seats[0])-1): #-1 becauce of \n
+# all 'L' will be 33, all '#' will be 1,  '.' will be 0
+occupancy = np.zeros((len(seats),len(seats[0])-1))     
+
+leny = occupancy.shape[0]
+lenx = occupancy.shape[1]
+for yy in range(0,leny):
+    for xx in range(0,lenx):
         if seats[yy][xx] == 'L':
-            print('hh')
-            occupancy[yy+1][xx+1] = 33
+            occupancy[yy][xx] = 33
         elif seats[yy][xx] == '#': 
-            occupancy[yy+1][xx+1] = 1
+            occupancy[yy][xx] = 1
 
 
 def count_visible_neighbours(y,x, old_occupancy):
    
     nbr_neighbours = 0
-    print(' ')
 
     # naighbours to the left:
     neighbour = 0
     xx = copy.deepcopy(x)
-    while xx>1 and neighbour == 0:
+    while xx > 0 and neighbour == 0:
         xx -= 1
         if old_occupancy[y][xx] == 33:
-            print('L')
             xx = -10000
         elif old_occupancy[y][xx] == 1:
                 neighbour = 1
                       
-    print('leftneighbiur',str(neighbour))
+    #print('leftneighbiur',str(neighbour))
     nbr_neighbours += neighbour
         
     #right
     neighbour = 0
     xx = copy.deepcopy(x)
-    while xx<len(old_occupancy[0])-2 and neighbour == 0:
+    while xx < lenx-1 and neighbour == 0:
         xx += 1
         if old_occupancy[y][xx] == 33:
-            print('L')
+#            print('L')
             xx = 10000       
         elif old_occupancy[y][xx] == 1:
                 neighbour = 1
-                print('right')
 
-    print('right neighbiur',str(neighbour))
+#    print('right neighbiur',str(neighbour))
     nbr_neighbours += neighbour
     
     # above
     neighbour = 0
     yy = copy.deepcopy(y)
-    while yy > 1 and neighbour == 0:
+    while yy > 0 and neighbour == 0:
         yy -= 1 
         if old_occupancy[yy][x] == 33:
             yy = -1000
         elif old_occupancy[yy][x] == 1:
             neighbour = 1
-    print('above neighbiur',str(neighbour))
+#    print('above neighbiur',str(neighbour))
     nbr_neighbours += neighbour
     
     #below
     neighbour = 0
     yy = copy.deepcopy(y)
-    while yy < len(old_occupancy)-1 and neighbour == 0:
+    while yy < leny-1 and neighbour == 0:
         yy += 1
-        print('x in below',x)
-        print('yy in below',yy)
+#        print('x in below',x)
+#        print('yy in below',yy)
         if old_occupancy[yy][x] == 33:
             yy = 1000
         elif old_occupancy[yy][x] == 1:            
             neighbour = 1
 
-    print('below neighbiur',str(neighbour))
+#    print('below neighbiur',str(neighbour))
     nbr_neighbours += neighbour      
 
     #diagonal top left      
     neighbour = 0
     yy = copy.deepcopy(y)
     xx = copy.deepcopy(x)
-    while yy > 1 and xx > 1 and neighbour == 0:
+    while yy > 0 and xx > 0 and neighbour == 0:
         yy -= 1
         xx -= 1
         if old_occupancy[yy][xx] == 33:
@@ -166,14 +164,14 @@ def count_visible_neighbours(y,x, old_occupancy):
         elif old_occupancy[yy][xx] == 1:            
             neighbour = 1
 
-    print('top left neighbour',str(neighbour))
+#    print('top left neighbour',str(neighbour))
     nbr_neighbours += neighbour      
 
     #diagonal top right      
     neighbour = 0
     yy = copy.deepcopy(y)
     xx = copy.deepcopy(x)
-    while yy > 1 and xx<len(old_occupancy[0])-2 and neighbour == 0:
+    while yy > 0 and xx<lenx-1 and neighbour == 0:
         yy -= 1
         xx += 1
         if old_occupancy[yy][xx] == 33:
@@ -181,14 +179,14 @@ def count_visible_neighbours(y,x, old_occupancy):
         elif old_occupancy[yy][xx] == 1:            
             neighbour = 1
 
-    print('top right neighbour',str(neighbour))
+#    print('top right neighbour',str(neighbour))
     nbr_neighbours += neighbour      
 
     #diagonal bottom left
     neighbour = 0
     yy = copy.deepcopy(y)
     xx = copy.deepcopy(x)
-    while yy < len(old_occupancy)-1  and xx > 1 and neighbour == 0:
+    while yy < leny-1  and xx > 0 and neighbour == 0:
         yy += 1
         xx -= 1
         if old_occupancy[yy][xx] == 33:
@@ -196,14 +194,14 @@ def count_visible_neighbours(y,x, old_occupancy):
         elif old_occupancy[yy][xx] == 1:            
             neighbour = 1
 
-    print('bottom left neighbour',str(neighbour))
+#    print('bottom left neighbour',str(neighbour))
     nbr_neighbours += neighbour      
     
     #diagonal bottom right
     neighbour = 0
     yy = copy.deepcopy(y)
     xx = copy.deepcopy(x)
-    while yy < len(old_occupancy)-1  and xx < len(old_occupancy[0])-2 and neighbour == 0:
+    while yy < leny-1  and xx < lenx-1 and neighbour == 0:
         yy += 1
         xx += 1
         if old_occupancy[yy][xx] == 33:
@@ -211,7 +209,7 @@ def count_visible_neighbours(y,x, old_occupancy):
         elif old_occupancy[yy][xx] == 1:            
             neighbour = 1
 
-    print('bottom right neighbour',str(neighbour))
+#    print('bottom right neighbour',str(neighbour))
     nbr_neighbours += neighbour      
     
     
@@ -228,12 +226,12 @@ while this is True:
     old_occupancy = copy.deepcopy(occupancy)
     
     # anpassa range to the 0-occupancy frame
-    for y in range(1,len(seats)+1):
-        for x in range(1,len(seats[0])-1+1):
+    for y in range(0,leny):
+        for x in range(0,lenx):
             
-            if seats[y-1][x-1] != '.':
-                print('x',x)
-                print('y',y)
+            if occupancy[y][x] != 0:
+#                print('x',x)
+#                print('y',y)
                 check = count_visible_neighbours(y,x, old_occupancy)
                 
                 if check == 0:
@@ -241,18 +239,11 @@ while this is True:
                 elif check >4:
                     occupancy[y][x] = 33
                 
-    if occupancy == old_occupancy:
+    if np.array_equal(occupancy,old_occupancy)==True:
         this = False
     
-    
-        
-sum_= 0
-for li in occupancy:
-    # make all '33' to '0'
-    li[li==33] = 1
-    sum_ += sum(li)
-    
-print('answer ' , sum_)
+bin_occupancy=np.zeros((occupancy.shape))    
+bin_occupancy[occupancy==1] = 1
 
-#TODO 
-# det ska inte vara nån 1 a i occupancys "ram"
+    
+print('answer ' , int(np.sum(bin_occupancy)))
