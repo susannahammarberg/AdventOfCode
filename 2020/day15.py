@@ -39,7 +39,7 @@ print(nbrs[-1])
 import copy
 
 #start = [0,3]
-start = [0,20,7,16,1,18] #last number is saved
+start = [0,20,7,16,1,18] #last number defined as the first 'new_nbr'
 
 nbrs = {}
 nbr = 0
