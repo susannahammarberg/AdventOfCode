@@ -43,13 +43,12 @@ def read_test():
     test_data = test_data[0].split('\n') # same as splitlines
     return test_data[1:-1]
 
+
+
 data = read_input()
 #data = read_test()
 callout = data[0]
 callout = [int(x) for x in callout.split(',')]
-
-
-## ♀♀
 
 data = [row.strip().split(' ') for row in data]
 
@@ -68,45 +67,94 @@ while x < len(data)-4: #typ
     x += 6   
     
     
-# inout data  sorted
+# input data  sorted
 
 #%%
 # part 1
-
-found_bingo = False
-for num in callout:
-
-    for card in cards:
-        card[card == num] = 100
-        
-        for col_sum in np.sum(card,axis=0):
-            if col_sum == 500:
-                print('col bingo!!')
-                found_bingo = True
+def play_bingo():
+    found_bingo = False
+    for num in callout:
+    
+        for card in cards:
+            card[card == num] = 100
+            
+            for col_sum in np.sum(card,axis=0):
+                if col_sum == 500:
+                    print('col bingo!!')
+                    found_bingo = True
+                    break
+            for row_sum in np.sum(card,axis=1):
+                if row_sum == 500:
+                    print('row bingo!!')
+                    found_bingo = True
+                    break
+    
+            if found_bingo == True:
                 break
-        for row_sum in np.sum(card,axis=1):
-            if row_sum == 500:
-                print('row bingo!!')
-                found_bingo = True
-                break
-
         if found_bingo == True:
             break
-    if found_bingo == True:
-        break
     
+    return card,num
+    
+card, num = play_bingo()
 #set all the callouted numberes to 0
 card[card==100] = 0 
 
 sum_ = np.sum(card)    
     
 score = num * sum_
-#%%
+
    
 print('result part 1: ', score)
 
+#%%
+#part 2
+def play_bingo_again():
+    remove_card_nbrs = []
+    for num in callout:
+        found_bingo = False   
+        for count, card in enumerate(cards):
+            card[card == num] = 100
+            
+            for col_sum in np.sum(card,axis=0):
+                if col_sum == 500:
+                    print('col bingo!!')
+                    found_bingo = True
+                    remove_card_nbrs.append(count)
+                    break
+            for row_sum in np.sum(card,axis=1):
+                if row_sum == 500:
+                    print('row bingo!!')
+                    found_bingo = True
+                    remove_card_nbrs.append(count)
+                    break
 
+        #if one card had bingo, remove it from the deck, if its not the last one
+        if found_bingo == True and len(cards) > 1:      
+            #reverse the order so its easier to remove from the deck   
+            remove_card_nbrs.reverse()
+            for rem_nbr in remove_card_nbrs:
+                cards.pop(rem_nbr)
+            # set found_bingo to false so that the game continues when
+            # a card/cards are chucked out
+            found_bingo = False 
+            remove_card_nbrs = []
+                
+        #Stop going thourgh the numbers when the last card has got a bingo!
+        if len(cards) < 2 and found_bingo == True:
+            break
+    
+    return card,num
+    
+card, num = play_bingo_again()
+#so if the card wins, you delete it or set everything to 0 or something
 
-   
-print('result part 2: ', )
+# #set all the callouted numberes to 0
+card[card==100] = 0 
+
+sum_ = np.sum(card)    
+    
+score = num * sum_
+print('result part 2: ', score )
+
 
