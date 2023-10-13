@@ -35,11 +35,11 @@ data = [int(dat) for dat in data] # turn the items to ints
 
 # part 1
 
-   
-print('result part 1: ', )
+
+print('\n' + 'result part 1: ', )
 
 
 
    
-print('result part 2: ', )
+print('\n' + 'result part 2: ', )
 
