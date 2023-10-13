@@ -36,7 +36,7 @@ data = read_input()
 #data = read_test()
 
 array = np.zeros((1000,1000),dtype=int)
-def handle_input():
+def part1():
     
     for line in data:
         a = re.split(',|->' , line.strip(' '))
@@ -49,7 +49,7 @@ def handle_input():
         
             for xpos in range(xvalues[0],xvalues[1]+1):
                 array[ yvalues[0], xpos] += 1
-                print('hit')
+
         if xvalues[0] == xvalues[1]:
             for ypos in range(yvalues[0],yvalues[1]+1):
                 array[ ypos, xvalues[0]] += 1
@@ -57,7 +57,7 @@ def handle_input():
 
         
         
-handle_input()
+part1()
 
 " calc numer of indices with more than one hit"
 
