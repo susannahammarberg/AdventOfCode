@@ -113,10 +113,3 @@ array[array > 1] = 1
 answ = np.sum(array)   
 print('\n' + 'result part 2: ', answ )
 
-#detta borde jag verkligen lära mig
-x1 = 11
-x2 = 6
-if x1 < x2:  
-    a = list(range(x1,x2))
-else:
-    a = list(range(x1,x2-1,-1))
