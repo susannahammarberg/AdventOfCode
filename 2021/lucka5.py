@@ -50,18 +50,15 @@ def part1():
             for xpos in range(xvalues[0],xvalues[1]+1):
                 array[ yvalues[0], xpos] += 1
 
-        if xvalues[0] == xvalues[1]:
+        elif xvalues[0] == xvalues[1]:
             for ypos in range(yvalues[0],yvalues[1]+1):
                 array[ ypos, xvalues[0]] += 1
                 
-
-        
+ 
         
 part1()
 
 " calc numer of indices with more than one hit"
-
-# part 1
 
 array[array == 1] = 0
 array[array > 1] = 1
@@ -69,8 +66,57 @@ answ = np.sum(array)
 
 print('\n' + 'result part 1: ', answ )
 
+array = np.zeros((1000,1000),dtype=int)
+def part2():
+    
+    for line in data:
+        a = re.split(',|->' , line.strip(' '))
+        
 
+        xvalues = sorted([int(a[0]),int(a[2])])
+        yvalues = sorted([int(a[1]),int(a[3])])
+        
+        if yvalues[0] == yvalues[1]:
+        
+            for xpos in range(xvalues[0],xvalues[1]+1):
+                array[ yvalues[0], xpos] += 1
 
-   
-print('\n' + 'result part 2: ', )
+        elif xvalues[0] == xvalues[1]:
+            for ypos in range(yvalues[0],yvalues[1]+1):
+                array[ ypos, xvalues[0]] += 1
+                
 
+        else:
+           #print('diagonal lines', line)
+           #todo # recoding this part now so could clean up
+           x1 = int(a[0]); x2 = int(a[2])
+           y1 = int(a[1]); y2 = int(a[3])
+           if x1 < x2:
+                xvalues_unsorted = list(range(x1,x2+1))
+           else:
+                xvalues_unsorted = list(range(x1,x2-1,-1))
+           if y1 < y2:
+                yvalues_unsorted = list(range(y1,y2+1))
+           else:
+                yvalues_unsorted = list(range(y1,y2-1,-1))        
+           j = 0
+           for xpos in xvalues_unsorted:
+               array[ yvalues_unsorted[j], xpos] += 1
+               
+               #print(yvalues_unsorted[j], xpos)
+               j+=1
+        
+part2()
+
+array[array == 1] = 0
+array[array > 1] = 1
+answ = np.sum(array)   
+print('\n' + 'result part 2: ', answ )
+
+#detta borde jag verkligen lära mig
+x1 = 11
+x2 = 6
+if x1 < x2:  
+    a = list(range(x1,x2))
+else:
+    a = list(range(x1,x2-1,-1))
