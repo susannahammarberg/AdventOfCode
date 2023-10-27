@@ -5,6 +5,7 @@ Created on Mon Sep 25 10:49:12 2023
 @author: sanna
 """
 
+
 def read_input():
     
     with open('input7.txt','r') as fp:
@@ -41,8 +42,19 @@ fuels = align_crabs()
 
 print('\n' + 'result part 1: ', min(fuels))
 
+def integer_series(n):
+    return(sum(list(range(0,n+1))))
 
-
-   
-print('\n' + 'result part 2: ', )
+def align_crabs_v2():
+    fuels = []
+    for ii in range(0,max(data)):
+        fuel = 0
+        for dat in data:
+           #print('fuel',fuel)
+            fuel += integer_series(abs(dat-ii))
+        fuels.append(fuel)
+    return fuels
+    
+fuels_v2 = align_crabs_v2() 
+print('\n' + 'result part 2: ', min(fuels_v2) )
 
