@@ -18,7 +18,7 @@ def read_input():
 def read_test():    
     test_data = [
     """
-    acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf
+    acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf 
     be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe
     edbfga begcd cbg gc gcadebf fbgde acbgfd abcde gfcbed gfec | fcgedb cgb dgebacf gc
     fgaebd cg bdaec gdafb agbcfd gdcbef bgcad gfac gcb cdgabef | cg cg fdcagb cbg
@@ -30,23 +30,28 @@ def read_test():
     egadfb cdbfeg cegd fecab cgb gbdefca cg fgcdab egfdb bfceg | gbdfcae bgc cg cgb
     gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce"""]
 
+    
     test_data = test_data[0].split('\n')[1:] # same as splitlines
-    data = []
+    output_data = []
     for dat in test_data:        
-        data.append(dat.split('|'))
+        output_data.append(dat.split('|'))
            
-    return data
+    return output_data
 
 #data = read_input()
 data = read_test()
 
-def extract_output_values(data):
+#TODO
+#Dort input values acc to length
+def extract_input_output_values(data):
     output = []
+    input_ = []
     for dat in data:
+        input_.append(dat[0][4:-1].split(' '))
         output.append(dat[1][1:].split(' '))
-    return output
+    return input_, output
 
-output = extract_output_values(data)
+input_, output = extract_input_output_values(data)
 
 
 # part 1
@@ -92,8 +97,12 @@ cagedb: 0
 ab: 1
 """
 
+
 def sort_string(string):
     return "".join(sorted(string))
+
+for inp in input_:
+    inp.sort()
 
 two_code = sort_string('gcdfa')
 three_code = sort_string('fbcad')   
@@ -131,15 +140,96 @@ def decode_easy_digits(output):
             else:
                 print('could not decode')
         code = str(code).replace(', ','').strip('[').strip(']')
-        j=5
         numbers.append(code)
-        
-        
-         
 
     return numbers
+
+# use this as a guide
+"""
+   aaaa
+b       c
+b       c
+   dddd
+e       f
+e       f
+   gggg
+   
+ """
+ 
+def decode_input(input_):
+    numbers = []
+    
+    for data in input_:
+        #sort the input values after lenngth
+        data = sorted(data, key=len)
+        code = []
+        for dat in data:
+            length = len(dat)
+            dat = sort_string(dat)
+            
+            if length == 2: #then == '1'
+                code.append(1)
+                # save the information that these two letters
+                # encodes the two diodes to the right (c and f)
+                # save the 2 letters that coresponds to c and f
+                cf_save = dat
+
+            
+            elif length == 3:
+                code.append(7)
+                # the letter that is not included in "1" is the top diod (a)
+
+                # it is not the dat[2] that equals the a, it is the one that is different from 2 but it could be the dirst letter
+                a_save = dat.replace(cf_save[0],'').replace(cf_save[1],'')
+
+            
+            elif length == 4:
+                code.append(4)
+                # save the diodes that are not included in '1'
+                bd_save = dat.replace(cf_save[0],'').replace(cf_save[1],'')
+                    
+            elif length == 5:
+                
+                #if the letters cf_sSave exist in dat:
+                #(    that is, if the length of dat is 3 when cf is removed)
+                if len(dat.replace(cf_save[0],'').replace(cf_save[1],'')) == 3:
+                    code.append(3)
+                #elif bd from 4 exist in dat:
+                elif len(dat.replace(bd_save[0],'').replace(bd_save[1],'')) == 3:
+                    code.append(5)
+                else:
+                    code.append(2)
+            
+            elif length == 6:
+                #todo wrong i thing indeces in dat
+                dat = dat.replace(cf_save[0],'').replace(cf_save[1],'')
+                if len(dat) == 4:
+                    #check if 0 or 9
+                    dat = dat.replace(bd_save[0],'').replace(bd_save[1],'')
+                    if len(dat) == 2:
+                        code.append(9)
+                    else: #(if that thing is 3)
+                        code.append(0)
+                    
+                else: # (if that thing ==5)
+                    code.append(6)
+            #     if 2 digits overlap with "1" then ==0 or 9:
+            #         if 4  overlaps with "4" then == 9, else ==0
+
+            
+            elif length == 7:
+                code.append(8)
+                
+            else:
+                print('could not decode')
         
-decoded = decode_easy_digits(output) 
+        
+        #code = str(code).replace(', ','').strip('[').strip(']')
+        numbers.append(code)
+
+    return numbers
+
+decoded = decode_input(input_[0:2]) 
 
 
    
