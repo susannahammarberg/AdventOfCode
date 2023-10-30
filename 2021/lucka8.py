@@ -18,6 +18,7 @@ def read_input():
 def read_test():    
     test_data = [
     """
+    acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf
     be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe
     edbfga begcd cbg gc gcadebf fbgde acbgfd abcde gfcbed gfec | fcgedb cgb dgebacf gc
     fgaebd cg bdaec gdafb agbcfd gdcbef bgcad gfac gcb cdgabef | cg cg fdcagb cbg
@@ -28,6 +29,7 @@ def read_test():
     bdfegc cbegaf gecbf dfcage bdacg ed bedf ced adcbefg gebcd | ed bcgafe cdgba cbgef
     egadfb cdbfeg cegd fecab cgb gbdefca cg fgcdab egfdb bfceg | gbdfcae bgc cg cgb
     gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce"""]
+
     test_data = test_data[0].split('\n')[1:] # same as splitlines
     data = []
     for dat in test_data:        
@@ -35,8 +37,8 @@ def read_test():
            
     return data
 
-data = read_input()
-#data = read_test()
+#data = read_input()
+data = read_test()
 
 def extract_output_values(data):
     output = []
@@ -74,8 +76,72 @@ print('\n' + 'result part 1: ',len(decoded) )
 
 
 
+#part 2 
+"""
+you now have this decoding pattern:
+
+acedgfb: 8
+cdfbe: 5
+gcdfa: 2
+fbcad: 3
+dab: 7
+cefabd: 9
+cdfgeb: 6
+eafb: 4
+cagedb: 0
+ab: 1
+"""
+
+def sort_string(string):
+    return "".join(sorted(string))
+
+two_code = sort_string('gcdfa')
+three_code = sort_string('fbcad')   
+five_code = sort_string('cdfbe')
+six_code = sort_string('cdfgeb')
+nine_code = sort_string('cefabd')
+
+def decode_easy_digits(output):
+    numbers = []
+    
+    for data in output:
+        code = []
+        for dat in data:
+            length = len(dat)
+            dat = sort_string(dat)
+            if length == 2:
+                code.append(1)
+            elif dat == two_code:
+                code.append(2)
+                print('two')
+            elif dat == three_code:
+                code.append(3)
+            elif length == 4:
+                code.append(4)
+            elif dat == five_code:
+                code.append(5)
+            elif dat == six_code:
+                code.append(6)
+            elif length == 3:
+                code.append(7)
+            elif length == 7:
+                code.append(8)
+            elif dat == nine_code:
+                code.append(9)
+            else:
+                print('could not decode')
+        code = str(code).replace(', ','').strip('[').strip(']')
+        j=5
+        numbers.append(code)
+        
+        
+         
+
+    return numbers
+        
+decoded = decode_easy_digits(output) 
 
 
    
-print('\n' + 'result part 2: ', )
+print('\n' + 'result part 2: ',decoded )
 
