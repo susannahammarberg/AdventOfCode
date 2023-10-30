@@ -17,8 +17,8 @@ def read_input():
 
 def read_test():    
     test_data = [
+    #acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf 
     """
-    acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf 
     be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe
     edbfga begcd cbg gc gcadebf fbgde acbgfd abcde gfcbed gfec | fcgedb cgb dgebacf gc
     fgaebd cg bdaec gdafb agbcfd gdcbef bgcad gfac gcb cdgabef | cg cg fdcagb cbg
@@ -156,82 +156,137 @@ e       f
    
  """
  
-def decode_input(input_):
-    numbers = []
-    
-    for data in input_:
-        #sort the input values after lenngth
-        data = sorted(data, key=len)
-        code = []
-        for dat in data:
-            length = len(dat)
-            dat = sort_string(dat)
-            
-            if length == 2: #then == '1'
-                code.append(1)
-                # save the information that these two letters
-                # encodes the two diodes to the right (c and f)
-                # save the 2 letters that coresponds to c and f
-                cf_save = dat
+def decode_input(data):
 
-            
-            elif length == 3:
-                code.append(7)
-                # the letter that is not included in "1" is the top diod (a)
-
-                # it is not the dat[2] that equals the a, it is the one that is different from 2 but it could be the dirst letter
-                a_save = dat.replace(cf_save[0],'').replace(cf_save[1],'')
-
-            
-            elif length == 4:
-                code.append(4)
-                # save the diodes that are not included in '1'
-                bd_save = dat.replace(cf_save[0],'').replace(cf_save[1],'')
-                    
-            elif length == 5:
-                
-                #if the letters cf_sSave exist in dat:
-                #(    that is, if the length of dat is 3 when cf is removed)
-                if len(dat.replace(cf_save[0],'').replace(cf_save[1],'')) == 3:
-                    code.append(3)
-                #elif bd from 4 exist in dat:
-                elif len(dat.replace(bd_save[0],'').replace(bd_save[1],'')) == 3:
-                    code.append(5)
-                else:
-                    code.append(2)
-            
-            elif length == 6:
-                #todo wrong i thing indeces in dat
-                dat = dat.replace(cf_save[0],'').replace(cf_save[1],'')
-                if len(dat) == 4:
-                    #check if 0 or 9
-                    dat = dat.replace(bd_save[0],'').replace(bd_save[1],'')
-                    if len(dat) == 2:
-                        code.append(9)
-                    else: #(if that thing is 3)
-                        code.append(0)
-                    
-                else: # (if that thing ==5)
-                    code.append(6)
-            #     if 2 digits overlap with "1" then ==0 or 9:
-            #         if 4  overlaps with "4" then == 9, else ==0
-
-            
-            elif length == 7:
-                code.append(8)
-                
-            else:
-                print('could not decode')
+    #sort the input values after lenngth
+    data = sorted(data, key=len)
+    code = []
+    for dat in data:
+        length = len(dat)
+        dat = sort_string(dat)
         
+        if length == 2: #then == '1'
+            code.append(1)
+            # save the information that these two letters
+            # encodes the two diodes to the right (c and f)
+            # save the 2 letters that coresponds to c and f
+            cf_save = dat
+
+        
+        elif length == 3:
+            code.append(7)
+            # the letter that is not included in "1" is the top diod (a)
+
+            # it is not the dat[2] that equals the a, it is the one that is different from 2 but it could be the dirst letter
+            a_save = dat.replace(cf_save[0],'').replace(cf_save[1],'')
+
+        
+        elif length == 4:
+            code.append(4)
+            # save the diodes that are not included in '1'
+            bd_save = dat.replace(cf_save[0],'').replace(cf_save[1],'')
+                
+        elif length == 5:
+            
+            #if the letters cf_sSave exist in dat:
+            #(    that is, if the length of dat is 3 when cf is removed)
+            if len(dat.replace(cf_save[0],'').replace(cf_save[1],'')) == 3:
+                code.append(3)
+            #elif bd from 4 exist in dat:
+            elif len(dat.replace(bd_save[0],'').replace(bd_save[1],'')) == 3:
+                code.append(5)
+            else:
+                code.append(2)
+        
+        elif length == 6:
+            #todo wrong i thing indeces in dat
+            dat = dat.replace(cf_save[0],'').replace(cf_save[1],'')
+            if len(dat) == 4:
+                #check if 0 or 9
+                dat = dat.replace(bd_save[0],'').replace(bd_save[1],'')
+                if len(dat) == 2:
+                    code.append(9)
+                else: #(if that thing is 3)
+                    code.append(0)
+                
+            else: # (if that thing ==5)
+                code.append(6)
+        
+        elif length == 7:
+            code.append(8)
+            
+        else:
+            print('could not decode')
+    
         
         #code = str(code).replace(', ','').strip('[').strip(']')
-        numbers.append(code)
-
-    return numbers
-
-decoded = decode_input(input_[0:2]) 
 
 
+    return code, a_save, bd_save, cf_save
+
+#
+def decode_output(data, a_save, bd_save, cf_save):
+
+    #this time dont sort the values, they must be in the 
+    # right order to produce the right number
+    #data = sorted(data, key=len)
+    code = []
+    for dat in data:
+        length = len(dat)
+        dat = sort_string(dat)
+        
+        if length == 2:
+            code.append(1)
+       
+        elif length == 3:
+            code.append(7)
+        
+        elif length == 4:
+            code.append(4)
+             
+        elif length == 5:            
+            #if the letters cf_sSave exist in dat:
+            #(    that is, if the length of dat is 3 when cf is removed)
+            if len(dat.replace(cf_save[0],'').replace(cf_save[1],'')) == 3:
+                code.append(3)
+            #elif bd from 4 exist in dat:
+            elif len(dat.replace(bd_save[0],'').replace(bd_save[1],'')) == 3:
+                code.append(5)
+            else:
+                code.append(2)
+        
+        elif length == 6:
+            #todo wrong i thing indeces in dat
+            dat = dat.replace(cf_save[0],'').replace(cf_save[1],'')
+            if len(dat) == 4:
+                #check if 0 or 9
+                dat = dat.replace(bd_save[0],'').replace(bd_save[1],'')
+                if len(dat) == 2:
+                    code.append(9)
+                else: #(if that thing is 3)
+                    code.append(0)
+                
+            else: # (if that thing ==5)
+                code.append(6)
+        
+        elif length == 7:
+            code.append(8)
+            
+        else:
+            print('could not decode')
+
+    return code
+
+outputs = []
+for ii in range(0,len(output)):
+
+    decoded_input, a_save, bd_save, cf_save = decode_input(input_[ii]) 
+
+    decoded_output = decode_output(output[ii], a_save, bd_save, cf_save )
+    outputs.append(str(decoded_output).replace(', ','').strip('[').strip(']'))
+    
+    
+outputs = [int(out) for out in outputs]
    
-print('\n' + 'result part 2: ',decoded )
+print('\n' + 'result part 2: ',sum(outputs))
 
