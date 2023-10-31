@@ -38,8 +38,8 @@ def read_test():
            
     return output_data
 
-#data = read_input()
-data = read_test()
+data = read_input()
+#data = read_test()
 
 #TODO
 #Dort input values acc to length
@@ -47,11 +47,14 @@ def extract_input_output_values(data):
     output = []
     input_ = []
     for dat in data:
-        input_.append(dat[0][4:-1].split(' '))
+        #did not work for real input
+        #input_.append(dat[0][4:-1].split(' '))
+        input_.append(dat[0].split(' '))
         output.append(dat[1][1:].split(' '))
     return input_, output
 
 input_, output = extract_input_output_values(data)
+
 
 
 # part 1
@@ -171,15 +174,12 @@ def decode_input(data):
             # encodes the two diodes to the right (c and f)
             # save the 2 letters that coresponds to c and f
             cf_save = dat
-
-        
+      
         elif length == 3:
             code.append(7)
             # the letter that is not included in "1" is the top diod (a)
-
             # it is not the dat[2] that equals the a, it is the one that is different from 2 but it could be the dirst letter
-            a_save = dat.replace(cf_save[0],'').replace(cf_save[1],'')
-
+            #a_save = dat.replace(cf_save[0],'').replace(cf_save[1],'')
         
         elif length == 4:
             code.append(4)
@@ -217,15 +217,11 @@ def decode_input(data):
             
         else:
             print('could not decode')
-    
-        
-        #code = str(code).replace(', ','').strip('[').strip(']')
 
-
-    return code, a_save, bd_save, cf_save
+    return code,  bd_save, cf_save
 
 #
-def decode_output(data, a_save, bd_save, cf_save):
+def decode_output(data, bd_save, cf_save):
 
     #this time dont sort the values, they must be in the 
     # right order to produce the right number
@@ -266,7 +262,7 @@ def decode_output(data, a_save, bd_save, cf_save):
                 else: #(if that thing is 3)
                     code.append(0)
                 
-            else: # (if that thing ==5)
+            else: 
                 code.append(6)
         
         elif length == 7:
@@ -274,15 +270,15 @@ def decode_output(data, a_save, bd_save, cf_save):
             
         else:
             print('could not decode')
-
     return code
+
 
 outputs = []
 for ii in range(0,len(output)):
 
-    decoded_input, a_save, bd_save, cf_save = decode_input(input_[ii]) 
+    decoded_input,  bd_save, cf_save = decode_input(input_[ii]) 
 
-    decoded_output = decode_output(output[ii], a_save, bd_save, cf_save )
+    decoded_output = decode_output(output[ii],  bd_save, cf_save )
     outputs.append(str(decoded_output).replace(', ','').strip('[').strip(']'))
     
     
